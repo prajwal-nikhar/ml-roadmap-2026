@@ -67,5 +67,30 @@
 - `loc` for when you know column/index names; `iloc` for when you need positional slicing
 - Netflix dataset has significant null values in `country`, `cast`, `director` — will need handling in Week 2
 
+## Day 4: Pandas Data Manipulation
+
+### Topics Covered
+- groupby: split-apply-combine pattern, agg with multiple functions, transform (adding group stats back to DataFrame), filter by group condition
+- merge / join: inner, left, right, outer joins; chaining multiple merges; joining on different column names
+- apply / map: element-wise map on Series, row-wise and column-wise apply on DataFrame, lambda functions
+- Sorting: single column, multiple columns with mixed ascending/descending order, sort by index
+- Duplicates: detecting exact and subset duplicates, drop_duplicates with keep='first'/'last'
+
+### Files
+- `day4_pandas_manipulation.ipynb` — groupby aggregations, merge join types, apply/map operations, sorting and duplicate handling on sample + Netflix dataset
+
+### What I Learned
+- groupby follows split → apply → combine: split data into groups, apply a function, combine results back
+- `transform` returns a same-length Series so you can add group-level stats (e.g. course average) back as a new column — unlike `agg` which collapses rows
+- merge `how` parameter mirrors SQL joins exactly: inner keeps only matches, left keeps all left rows, outer keeps everything
+- `apply(func, axis=1)` runs the function row-wise; `axis=0` runs column-wise — easy to mix up
+- `map` is for element-wise transformation on a single Series; `apply` is for more complex row/column logic on a DataFrame
+- `drop_duplicates(subset=['col'], keep='last')` lets you control which duplicate to retain
+
+### Key Takeaways
+- `transform` is underused but powerful — lets you enrich a DataFrame with group-level context without losing rows
+- Always check for duplicates early in any EDA — `df.duplicated().sum()` before any analysis
+- Chained merges are the Pandas equivalent of multi-table SQL joins
+
 ### Next Steps
-Day 4: Pandas Data Manipulation — groupby, merge/join, apply/map, sorting, handling duplicates
+Day 5: Matplotlib & Data Visualization — line, bar, scatter, histogram plots and subplots
