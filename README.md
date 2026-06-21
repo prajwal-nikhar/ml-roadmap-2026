@@ -92,5 +92,39 @@
 - Always check for duplicates early in any EDA — `df.duplicated().sum()` before any analysis
 - Chained merges are the Pandas equivalent of multi-table SQL joins
 
+## Day 5: Matplotlib & Data Visualization
+
+### Topics Covered
+- Line plots: trends over time, multiple lines, markers, grid styling
+- Bar plots: vertical and horizontal, value labels on bars, sorting by data
+- Scatter plots: correlation visualization, color by category, annotation
+- Histograms: distribution comparison, mean lines, overlapping distributions
+- Subplots: multi-plot figures using plt.subplots(), shared layout with suptitle
+- Applied EDA visualizations on Netflix dataset (content type, yearly trends, ratings)
+
+### Files
+- `day5_matplotlib_visualization.ipynb` — all plot types with customization, subplot grid, Netflix EDA plots
+- `line_plot.png` — streaming platform growth comparison
+- `bar_plots.png` — students per course (vertical) + avg marks per course (horizontal)
+- `scatter_plot.png` — study hours vs marks with correlation annotation
+- `histogram.png` — marks distribution comparison between two classes
+- `day5_all_plots.png` — 2x2 subplot grid combining all four chart types
+- `netflix_eda_plots.png` — Movies vs TV Shows, content per year, top ratings
+
+### What I Learned
+- `plt.subplots(rows, cols)` returns a fig and axes array — use `axes[i]` or `axes[i,j]` to target each subplot
+- `figsize` controls the overall figure size; increase width when plotting side-by-side charts to avoid clipping
+- `bbox_inches='tight'` in `savefig` prevents labels and titles from getting cut off
+- Sort each chart independently using its own metric — sorting by avg_marks and then plotting students gives wrong order
+- `xlim` on horizontal bar charts prevents value labels from being clipped at the edge
+- `np.corrcoef(x, y)[0,1]` gives the Pearson correlation coefficient — useful to annotate scatter plots
+- Overlapping histograms need `alpha < 1` to stay readable; adding mean lines with `axvline` makes distributions easier to compare
+
+### Key Takeaways
+- Always use `tight_layout()` before `savefig` to prevent subplot overlap
+- Color consistency across related charts improves readability
+- Scatter plots should always show a reference line (threshold, mean) to give context to the distribution
+- For horizontal bar charts, sort ascending so the longest bar is at the top — matches natural reading direction
+
 ### Next Steps
-Day 5: Matplotlib & Data Visualization — line, bar, scatter, histogram plots and subplots
+Day 6: Linear Algebra & Statistics Basics — vectors, matrix operations, probability, distributions
