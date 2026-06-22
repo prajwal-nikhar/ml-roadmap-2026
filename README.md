@@ -126,5 +126,36 @@
 - Scatter plots should always show a reference line (threshold, mean) to give context to the distribution
 - For horizontal bar charts, sort ascending so the longest bar is at the top — matches natural reading direction
 
+## Day 6: Linear Algebra & Statistics Basics
+
+### Topics Covered
+- Vectors: addition, subtraction, scalar multiplication, dot product, magnitude, unit vector, cosine similarity
+- Matrices: element-wise vs matrix multiplication, transpose, identity, determinant, inverse, eigenvalues/eigenvectors
+- Solving linear equations using numpy (Ax = b)
+- Statistics: mean, median, mode, variance, std dev (population vs sample), IQR, skewness, kurtosis
+- Probability distributions: Normal, Binomial, Uniform — PDF, CDF, 68-95-99.7 rule
+- Z-scores: standardization, interpretation, outlier detection
+
+### Files
+- `day6_linear_algebra_statistics.ipynb` — vectors, matrix ops, statistics fundamentals, distributions, z-scores
+- `vectors.png` — vector addition visualization using quiver plot
+- `statistics.png` — histogram with mean/median lines + box plot
+- `distributions.png` — Normal, Binomial, Uniform distributions side by side
+
+### What I Learned
+- Dot product measures alignment between vectors — foundation of neural network weight calculations
+- Cosine similarity = dot product / (magnitude of v1 × magnitude of v2) — used in NLP and recommendation systems
+- `np.var(data, ddof=1)` for sample variance, `ddof=0` (default) for population variance — wrong ddof gives wrong results
+- Eigenvalues and eigenvectors of a matrix are the foundation of PCA (coming in Week 6)
+- Z-score = (value - mean) / std — standardized scores always have mean=0, std=1
+- 68-95-99.7 rule: 68% of data falls within ±1σ, 95% within ±2σ, 99.7% within ±3σ of the mean
+- `quiver` in Matplotlib draws arrows — it does not support linestyle parameter unlike line plots
+
+### Key Takeaways
+- Linear algebra is the backbone of ML — matrix multiplication is what happens inside every neural network forward pass
+- Population std vs sample std matters: use ddof=1 when working with a sample of a larger dataset
+- Z-scores above |2| are typically flagged as outliers — same principle used in Week 2's outlier detection
+- Normal distribution CDF via `stats.norm.cdf()` gives exact probabilities — more precise than the 68-95-99.7 rule
+
 ### Next Steps
-Day 6: Linear Algebra & Statistics Basics — vectors, matrix operations, probability, distributions
+Day 7: Netflix Data Analysis Project — applying all Week 1 skills end to end
