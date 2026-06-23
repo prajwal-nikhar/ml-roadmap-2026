@@ -157,5 +157,35 @@
 - Z-scores above |2| are typically flagged as outliers — same principle used in Week 2's outlier detection
 - Normal distribution CDF via `stats.norm.cdf()` gives exact probabilities — more precise than the 68-95-99.7 rule
 
-### Next Steps
-Day 7: Netflix Data Analysis Project — applying all Week 1 skills end to end
+## Day 7: Netflix Data Analysis Project (Week 1 Capstone)
+
+### Topics Covered
+- End-to-end EDA pipeline: load → clean → analyze → visualize
+- Data cleaning: duplicate removal, missing value imputation, datetime parsing, feature extraction
+- GroupBy aggregations on real dataset
+- Multi-plot visualization dashboard across 4 figures
+- NumPy statistical summary on project data
+
+### Files
+- `day7_netflix_analysis.ipynb` — full EDA pipeline across 7 cells
+- `netflix_overview.png` — Movies vs TV Shows count + content added per year trend
+- `netflix_genre_rating.png` — Top 10 genres + rating distribution
+- `netflix_country_year.png` — Top 10 producing countries + release year histogram
+- `netflix_duration.png` — Movie duration distribution + TV show seasons breakdown
+
+### What I Learned
+- `df['col'] = df['col'].fillna(...)` is the correct Pandas 3.0 syntax — `inplace=True` on chained assignments is deprecated and will break in future versions
+- Always check column dtype before calling `.str` accessor — if `date_added` is already datetime, `.str.strip()` throws AttributeError
+- `df['listed_in'].str.split(', ').explode()` unpacks multi-value columns into individual rows for proper genre frequency analysis
+- `str.extract(r'(\d+)')` pulls the first numeric value from a string column — clean way to separate duration from unit label
+- `dt.year` and `dt.month` on datetime columns create useful temporal features for trend analysis
+
+### Key Insights from Netflix Dataset
+- Movies make up ~70% of Netflix content, TV Shows ~30%
+- Content additions peaked around 2019–2020, slowed post-pandemic
+- United States is the largest content producer by a significant margin
+- TV-MA and TV-14 are the most common ratings — platform skews toward mature audiences
+- Average movie duration is ~99 minutes; majority of TV shows have only 1 season
+
+### Key Takeaways
+- Real datasets always
