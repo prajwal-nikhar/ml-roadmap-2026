@@ -189,3 +189,45 @@
 
 ### Key Takeaways
 - Real datasets always
+
+## Day 8: Missing Value Handling
+
+### Topics Covered
+- Detecting missing values: isnull(), null percentage, missing value heatmap with Seaborn
+- Dropping strategies: dropna(), subset drops, dropping high-null columns by threshold
+- Mean / median / mode imputation for numerical and categorical columns
+- Forward fill (ffill) and backward fill (bfill) for time-series ordered data
+- KNN Imputation using Scikit-Learn for context-aware numerical imputation
+
+### Files
+- `day8_missing_values.ipynb` — full missing value handling pipeline across 5 cells
+- `missing_heatmap.png` — heatmap showing missing value pattern across dataset
+- `imputation_distribution.png` — distribution comparison before/after mean & median imputation
+- `ffill_bfill.png` — forward fill vs backward fill on time-series Sales and Temperature data
+- `knn_imputation.png` — distribution comparison before/after KNN imputation
+
+### What I Learned
+- `np.nan` is float-only — using it in `np.where` with string columns throws DTypePromotionError; use `None` instead for categorical columns
+- `df.isnull().sum() / len(df) * 100` gives null percentage per column — essential first step before choosing imputation strategy
+- Mean imputation distorts distribution by creating a spike at the mean — median is safer for skewed data
+- ffill/bfill only make sense for time-ordered data — using them on random tabular data gives misleading results
+- KNN imputation uses the K nearest neighbors (based on other features) to estimate missing values — more accurate than simple mean/median but computationally heavier
+- `KNNImputer` only works on numerical columns — categorical columns must be encoded first or handled separately
+
+### Imputation Strategy Decision Rule
+| Missing % | Strategy |
+|-----------|----------|
+| < 5%      | Drop rows |
+| 5–30%     | Mean / Median / Mode imputation |
+| Time-series | ffill / bfill |
+| Numerical with correlations | KNN imputation |
+| > 30%     | Drop column or flag as separate binary feature |
+
+### Key Takeaways
+- Never impute blindly — always check distribution before and after to ensure imputation doesn't distort the data
+- Mode imputation for categorical columns can introduce bias if one category is already dominant
+- KNN imputation preserves relationships between features better than mean/median — preferred when features are correlated
+- Always visualize missing patterns with a heatmap before deciding on a strategy
+
+### Next Steps
+Day 9: Outlier Detection — IQR
