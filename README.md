@@ -229,5 +229,43 @@
 - KNN imputation preserves relationships between features better than mean/median — preferred when features are correlated
 - Always visualize missing patterns with a heatmap before deciding on a strategy
 
+## Day 9: Outlier Detection
+
+### Topics Covered
+- Box plot visualization for outlier identification
+- IQR (Interquartile Range) method: Q1, Q3, Tukey's 1.5×IQR rule
+- Z-score method: standardized distance from mean, threshold-based detection
+- Outlier handling strategies: removal, capping (Winsorization), log transformation
+- Applied outlier analysis on Netflix movie duration data
+
+### Files
+- `day9_outlier_detection.ipynb` — full outlier detection pipeline across 6 cells
+- `boxplots_outliers.png` — box plots for all 4 columns showing outlier points in red
+- `outlier_strategies.png` — distribution comparison across 4 handling strategies for Salary
+- `netflix_duration_outliers.png` — Netflix movie duration box plot + before/after cleanup
+
+### What I Learned
+- IQR = Q3 - Q1; outlier bounds are Q1 - 1.5×IQR (lower) and Q3 + 1.5×IQR (upper) — Tukey's method
+- Z-score method is sensitive to extreme outliers because they inflate the std dev — IQR is more robust
+- Z-score assumes normality; IQR works on any distribution — prefer IQR for skewed data
+- Winsorization (clip to bounds) retains all rows while neutralizing outlier impact — better than removal when data is scarce
+- `np.log1p()` compresses right-skewed distributions and large value ranges — always use log1p over log to safely handle zeros
+- Red dots on box plots (flierprops) are data points beyond 1.5×IQR — visually identifies outliers instantly
+
+### Outlier Handling Decision Rule
+| Situation | Strategy |
+|-----------|----------|
+| Small dataset, can't afford to lose rows | Cap (Winsorize) |
+| Large dataset, outliers are errors | Remove |
+| Right-skewed distribution | Log transform |
+| Time-series data | Flag as binary feature |
+| Domain-specific valid extremes | Keep as-is |
+
+### Key Takeaways
+- Always visualize outliers with a box plot before deciding on a strategy
+- Not all outliers are errors — a Netflix movie with 300 min duration is unusual but valid
+- IQR is the default go-to; use Z-score only when data is confirmed to be normally distributed
+- Log transformation is preferred when outliers are valid but distort model training
+
 ### Next Steps
-Day 9: Outlier Detection — IQR
+Day 10: Feature Encoding — Label Encoding, One-Hot Encoding, Ordinal Encoding
