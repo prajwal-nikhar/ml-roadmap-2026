@@ -267,5 +267,34 @@
 - IQR is the default go-to; use Z-score only when data is confirmed to be normally distributed
 - Log transformation is preferred when outliers are valid but distort model training
 
-### Next Steps
-Day 10: Feature Encoding — Label Encoding, One-Hot Encoding, Ordinal Encoding
+## Day 10: Feature Encoding
+
+### Topics Covered
+- Label Encoding: integer assignment per category, use cases and pitfalls
+- One-Hot Encoding: binary column per category, dummy variable trap, drop='first'
+- Ordinal Encoding: order-preserving integer mapping for ranked categories
+- Encoding comparison: impact of encoding choice on model accuracy
+- When to use each encoding type across different model families
+
+### Files
+- `day10_feature_encoding.ipynb` — full encoding pipeline across 5 cells with comparison experiment
+
+### What I Learned
+- Label Encoding on nominal features implies a false ordinal relationship — models learn HR < Finance < Sales < Tech which has no real meaning
+- `drop='first'` in OneHotEncoder avoids the dummy variable trap — with N categories only N-1 columns are needed; the last is implied when all others are 0
+- Ordinal Encoding requires explicitly defining category order — letting sklearn infer it alphabetically gives wrong rankings
+- `pd.get_dummies()` is fastest for quick EDA; `sklearn OneHotEncoder` is better inside ML pipelines because it handles unseen categories at inference time
+- `OrdinalEncoder` should only be used when the order is domain-meaningful (e.g. High School < Bachelor < Master < PhD) — never on arbitrary categories
+
+### Encoding Decision Rule
+| Encoding | Use When | Avoid When |
+|----------|----------|------------|
+| Label Encoding | Target variable, tree-based models | Nominal features in linear/logistic regression |
+| One-Hot Encoding | Nominal categories, linear models | High cardinality columns (100+ unique values) |
+| Ordinal Encoding | Categories with a clear meaningful order | Nominal categories with no natural ranking |
+
+### Key Takeaways
+- Encoding choice directly affects model performance — wrong encoding on linear models introduces false relationships
+- High cardinality OHE (100+ dummies) causes dimensionality explosion — use target encoding or embeddings instead
+- Tree-based models (Decision Tree, Random Forest, XGBoost) are largely insensitive to encoding choice — they split on values, not magnitudes
+- Always define ordinal category order explicitly — never rely on alphabetical default
