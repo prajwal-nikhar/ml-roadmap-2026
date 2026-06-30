@@ -298,3 +298,38 @@
 - High cardinality OHE (100+ dummies) causes dimensionality explosion — use target encoding or embeddings instead
 - Tree-based models (Decision Tree, Random Forest, XGBoost) are largely insensitive to encoding choice — they split on values, not magnitudes
 - Always define ordinal category order explicitly — never rely on alphabetical default
+
+## Day 11: Feature Scaling
+
+### Topics Covered
+- Min-Max Scaling: rescaling to fixed range [0,1], custom ranges
+- Standardization (Z-score): rescaling to mean=0, std=1
+- RobustScaler: outlier-resistant scaling using median and IQR
+- Train/test scaling discipline to prevent data leakage
+- Impact of scaling on distance-based models (KNN)
+
+### Files
+- `day11_feature_scaling.ipynb` — full scaling pipeline across 5 cells
+- `scaler_comparison.png` — box plot comparison of MinMax, Standard, and Robust scalers on outlier-contaminated data
+
+### What I Learned
+- Min-Max formula: `(X - X_min) / (X_max - X_min)` — bounded to [0,1] but highly sensitive to outliers since a single extreme value compresses the rest of the range
+- Standardization formula: `(X - mean) / std` — not bounded to a fixed range, less sensitive to outliers than Min-Max but still affected since mean/std both shift with extreme values
+- RobustScaler formula: `(X - median) / IQR` — median and IQR are not affected by extreme values, making this the most reliable choice when outliers are present
+- KNN, SVM, and gradient-descent-based models (Linear/Logistic Regression) are scale-sensitive — tree-based models are not
+- Critical rule: fit the scaler only on training data, then use `.transform()` (not `.fit_transform()`) on test data — fitting on test data causes data leakage and inflates performance metrics
+
+### Scaler Decision Rule
+| Scaler | Use When | Avoid When |
+|--------|----------|------------|
+| MinMaxScaler | Bounded range needed (neural nets, image pixels) | Outliers present |
+| StandardScaler | Linear/Logistic Regression, SVM, PCA — default choice | Heavy outliers, non-normal data |
+| RobustScaler | Data has known/confirmed outliers | Clean, outlier-free data |
+
+### Key Takeaways
+- Demonstrated with an injected outlier that MinMax and Standard scalers get visibly distorted while RobustScaler stays stable
+- KNN accuracy changed measurably between unscaled and scaled versions of the same data — proof that scaling is not optional for distance-based models
+- Always scale numerical features after train/test split, never before — fitting the scaler on the full dataset leaks test set information into training
+
+### Next Steps
+Day 12: Data Visualization with Seaborn — distplot, boxplot, pairplot, heatmap
