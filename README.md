@@ -331,5 +331,36 @@
 - KNN accuracy changed measurably between unscaled and scaled versions of the same data — proof that scaling is not optional for distance-based models
 - Always scale numerical features after train/test split, never before — fitting the scaler on the full dataset leaks test set information into training
 
-### Next Steps
-Day 12: Data Visualization with Seaborn — distplot, boxplot, pairplot, heatmap
+## Day 12: Data Visualization with Seaborn
+
+### Topics Covered
+- histplot / kdeplot: distribution visualization, KDE curves, grouped distributions by hue
+- boxplot: category-wise distribution comparison, hue-based grouping
+- violinplot: distribution shape + summary statistics, split violin by gender
+- pairplot: pairwise relationships across all numerical features, colored by category
+- heatmap: full and masked (upper triangle) correlation matrices, interpretation guide
+- Applied Seaborn EDA on Netflix dataset
+
+### Files
+- `day12_seaborn_visualization.ipynb` — full Seaborn pipeline across 6 cells
+- `seaborn_distributions.png` — histogram, histogram+KDE, grouped KDE, stacked histplot
+- `seaborn_boxplots.png` — boxplot by department, boxplot with hue, violin, split violin
+- `seaborn_pairplot.png` — pairplot colored by promotion status
+- `seaborn_pairplot_dept.png` — pairplot colored by department
+- `seaborn_heatmap.png` — full and masked correlation heatmaps
+- `netflix_seaborn_eda.png` — duration distribution, duration by type, ratings by content type
+
+### What I Learned
+- `distplot` is deprecated in newer Seaborn — use `histplot(kde=True)` for histogram + KDE and `kdeplot()` for KDE-only plots
+- `hue` parameter in Seaborn plots splits data by a categorical column automatically — no need to manually filter and plot separately
+- `multiple='stack'` in histplot stacks grouped bars instead of overlapping them — cleaner for multi-category comparisons
+- Violin plots show the full distribution shape (KDE) wrapped around a box plot — more informative than a box plot alone
+- `split=True` in violinplot shows male/female (or any binary category) distributions mirrored on each side — very efficient use of space
+- `np.triu()` mask removes the upper triangle from the heatmap — avoids redundant mirror values since correlation matrix is symmetric
+- Pairplot diagonal shows each feature's own distribution; off-diagonal shows scatter between every feature pair
+
+### Key Takeaways
+- Always use `sns.set_theme()` at the top of visualization notebooks — consistent styling across all plots
+- Heatmap `center=0` ensures the colormap is centered at zero — critical for correlation maps where negative values matter
+- Pairplot is slow on large datasets (>10k rows) — sample first with `df.sample(1000)` before calling pairplot
+- Violin + split is the most space-efficient way to compare two groups across multiple categories simultaneously
